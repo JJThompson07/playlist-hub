@@ -2,12 +2,29 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from '../views/auth/Login'
 import Signup from '../views/auth/Signup'
+import CreatePlaylist from '../views/playlists/CreatePlaylist'
+import { projectAuth } from '../firebase/config'
+import PlaylistDetails from '../views/playlists/PlaylistDetails'
+import UserPlaylists from '../views/playlists/UserPlaylists'
+
+// route gaurds
+// create playlist
+const requireAuth = (to, from, next) => {
+  let user = projectAuth.currentUser
+  if (!user) {
+    next({ name: 'Login' })
+  } else {
+    next()
+  }
+}
+
 
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    beforeEnter: requireAuth
   },
   {
     path: '/login',
@@ -18,6 +35,25 @@ const routes = [
     path: '/signup',
     name: 'Signup',
     component: Signup
+  },
+  {
+    path: '/playlists/create',
+    name: 'CreatePlaylist',
+    component: CreatePlaylist,
+    beforeEnter: requireAuth
+  },
+  {
+    path: '/playlists/:id',
+    name: 'PlaylistDetails',
+    component: PlaylistDetails,
+    beforeEnter: requireAuth,
+    props: true
+  },
+  {
+    path: '/playlists/user',
+    name: 'UserPlaylists',
+    component: UserPlaylists,
+    beforeEnter: requireAuth
   }
 ]
 

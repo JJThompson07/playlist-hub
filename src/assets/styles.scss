@@ -7,6 +7,9 @@
   --secondary: #EBEBEB;
   --warning: #da0f41;
   --body-bg: #fafafa;
+  --link: #42B983;
+  --link-light: #5adba1;
+  --link-dark: #23885a;
 }
 
 // base styles
@@ -21,6 +24,15 @@ body {
 }
 a {
   text-decoration: none;
+}
+
+.link {
+  color: var(--link);
+  cursor: pointer;
+  transition: color 0.4s ease-in-out;
+  &:hover {
+    color: var(--link-dark)
+  }
 }
 
 // buttons
@@ -79,5 +91,9 @@ input, textarea {
   color: var(--warning);
   margin: 1rem 0;
   font-size: 14px;
+}
+
+.form__link {
+  align-self: flex-end;
 }
 

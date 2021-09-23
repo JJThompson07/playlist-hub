@@ -9,12 +9,15 @@
 
     <button v-if="!isPending">Sign up</button>
     <button v-else disabled>Loading</button>
+    <div class="form__link">Already a member? <span class="link" @click="handleClick">Login</span> here.</div>
+
   </form>
 </template>
 
 <script>
 import { ref } from 'vue'
 import useSignup from '../../composables/useSignup'
+import { useRouter } from 'vue-router'
 
 export default {
   name: "Signup",
@@ -22,15 +25,20 @@ export default {
     const email = ref('')
     const password = ref('')
     const displayName = ref('')
+    const router = useRouter()
 
     const { signup, error, isPending } = useSignup()
 
     const handleSubmit = async () => {
       const res = await signup(email.value, password.value, displayName.value)
       if (!error.value) {
-        // context.emit('login')
+        router.push({ name: 'UserPlaylists' })
         console.log('User Signed up')
       }
+    }
+
+    const handleClick = () => {
+      router.push({ name: 'Login' })
     }
 
     return {
@@ -39,6 +47,7 @@ export default {
       displayName,
       error,
       handleSubmit,
+      handleClick,
       isPending
     }
   }
